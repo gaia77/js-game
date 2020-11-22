@@ -68,6 +68,12 @@ document.addEventListener('keyup',function(e)   // When key is released, paddle 
     if(e.keyCode === 39)paddle.right=false;      
 })
 
+//Variable for the player
+
+const player = {
+  gameover : true
+};
+
 // Click to 'Start Game' Event
 gameover.addEventListener('click', startGame);
 
@@ -76,11 +82,39 @@ gameover.addEventListener('click', startGame);
 // Functions
 function startGame()
 {
+    if(player.gameover){
+    player.gameover = false;
+    gameover.style.display = "none"; //Hide start button
+    player.score = 0; //set player score
+    player.lives = 3; //set players lives
+    ball.style.display = "block";
+     //set up bricks  
+    scoreUpdater(); //update visible score 
     window.requestAnimationFrame(update);      // Animation to move paddle across the page
+    }
 }
+
+  //Function to update score and lives
+  function scoreUpdater(){
+    document.querySelector('.score').textContent = player.score;
+    document.querySelector('.lives').textContent = player.lives; //update players lives
+  }
+
+
 
 function update ()                             // Function to continously move the paddle
 {
+    let pCurrent = paddle.offsetLeft;
+    console.log(pCurrent);
+    if(paddle.left){ 
+      pCurrent -=5;  //subtracting 5 off
+    }
+
+    if(paddle.right){
+      pCurrent +=5;  //adding 5
+    }
+    paddle.style.left = pCurrent + 'px'; //Updating left paddle position
+  
     window.requestAnimationFrame(update);
 }
  

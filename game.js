@@ -65,5 +65,27 @@ gameover.addEventListener('click', startGame);
 
 function startGame()
 {
-    console.log('start');
+    window.requestAnimationFrame(update);      // Animation to move paddle across the page
 }
+ 
+// "Request Animation Frame" is a method that tells the browser that you wish to perform an animation
+// and requests that the browser call a specific function to update the animation
+
+const element = document.getElementById('some-element-you-want-to-animate'); 
+let start;
+
+function step(timestamp) {
+  if (start === undefined)
+    start = timestamp;
+  const elapsed = timestamp - start;
+
+  // `Math.min()` is used here to make sure that the element stops at exactly 200px.
+  element.style.transform = 'translateX(' + Math.min(0.1 * elapsed, 200) + 'px)';
+
+  if (elapsed < 2000) { // Stop the animation after 2 seconds
+    window.requestAnimationFrame(step);
+  }
+}
+
+window.requestAnimationFrame(step);
+

@@ -60,32 +60,49 @@ document.addEventListener('keydown',function(e)
     if(e.keyCode === 39)paddle.right=true;      // If keycode is 39, set paddle value right to be true
 })
 
+
+document.addEventListener('keyup',function(e)   // When key is released, paddle will stop moving left or right
+{
+    console.log(e.keyCode);
+    if(e.keyCode === 37)paddle.left=false;       
+    if(e.keyCode === 39)paddle.right=false;      
+})
+
 // Click to 'Start Game' Event
 gameover.addEventListener('click', startGame);
 
+
+
+// Functions
 function startGame()
 {
     window.requestAnimationFrame(update);      // Animation to move paddle across the page
 }
+
+function update ()                             // Function to continously move the paddle
+{
+    window.requestAnimationFrame(update);
+}
  
 // "Request Animation Frame" is a method that tells the browser that you wish to perform an animation
 // and requests that the browser call a specific function to update the animation
-
-const element = document.getElementById('some-element-you-want-to-animate'); 
-let start;
+ 
+var start = null
 
 function step(timestamp) {
-  if (start === undefined)
-    start = timestamp;
-  const elapsed = timestamp - start;
+  if (!start) start = timestamp;
+    var progress = timestamp - start;
 
-  // `Math.min()` is used here to make sure that the element stops at exactly 200px.
-  element.style.transform = 'translateX(' + Math.min(0.1 * elapsed, 200) + 'px)';
+    // `Math.min()` is used to make sure that the element stops at exactly 200px.
+    element.style.transform = 'translateX(' + Math.min(progress/10,200) + 'px)';
 
-  if (elapsed < 2000) { // Stop the animation after 2 seconds
-    window.requestAnimationFrame(step);
+  if (progress < 2000)
+  { 
+    window.requestAnimationFrame(step);     // Stop the animation after 2 seconds
   }
 }
 
 window.requestAnimationFrame(step);
+
+
 

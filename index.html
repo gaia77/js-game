@@ -1,37 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-        <title>JavaScript Game</title>
-        <link rel="stylesheet" href="styles/styles.css" type="text/css">
-    </head>
-    <body>
-        <div>
-            Score : <span class="score"></span>
-            Lives: <span class="lives"></span>
-        </div>
-    <div class="container"></div>
-    <script>
-        const container = document.querySelector('.container');
-        let conDim = container.getBoundingClientRect();
-        const gameover = document.createElement('div');
-        gameover.textContent = "Start Game"; 
-        gameover.style.position = "absolute"; //Styling 
-        gameover.style.color = "white";
-        gameover.style.lineHeight = "300px";
-        gameover.style.textAlign = "center";
-        gameover.style.fontSize = "3em";
-        gameover.style.textTransform = "uppercase";
-        gameover.style.backgroundColor = "green";
-
-        container.appendChild(gameover);
-
-
-
-
-    </script>
-</body>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+            <title>JavaScript Game</title>
+            <link rel="stylesheet" href="styles/styles.css" type="text/css">
+            </head>
+                <body>
+                    <div class="wrapper">
+                    <div class="score">
+                        Score : <span class="score"></span><br>     <!--Track Score-->
+                        Lives: <span class="lives"></span>          <!--Decrease Lives-->
+                    </div>
+                <div class="container"></div>                       <!--Game Container-->     
+            </div>   
+        </body>
+    <script src="game.js"></script>  
 </html>
-
-

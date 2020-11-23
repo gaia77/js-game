@@ -86,13 +86,33 @@ function startGame()
     player.gameover = false;
     gameover.style.display = "none"; //Hide start button
     player.score = 0; //set player score
-    player.lives = 3; //set players lives
+    player.lives = 5; //set players lives
     ball.style.display = "block";
-     //set up bricks  
+    setupBricks(30);   //set up bricks  
     scoreUpdater(); //update visible score 
-    window.requestAnimationFrame(update);      // Animation to move paddle across the page
+    //window.requestAnimationFrame(update);      // Animation to move paddle across the page
     }
 }
+
+  //Function setup bricks
+  function setupBricks(num){
+    let row = {                     //determine starting position
+      x: ((conDim.width % 100)/2),
+      y: 50
+    }
+
+    for(let x=0;x<num;x++){
+      console.log(row);
+      if(row.x>(conDim.width - 100)){
+        row.y += 50;
+        row.x = ((conDim.width % 100)/2);
+      }
+      row.x +=100;
+    }
+  }
+
+
+
 
   //Function to update score and lives
   function scoreUpdater(){
@@ -128,7 +148,7 @@ function step(timestamp) {
     var progress = timestamp - start;
 
     // `Math.min()` is used to make sure that the element stops at exactly 200px.
-    element.style.transform = 'translateX(' + Math.min(progress/10,200) + 'px)';
+    //element.style.transform = 'translateX(' + Math.min(progress/10,200) + 'px)';
 
   if (progress < 2000)
   { 

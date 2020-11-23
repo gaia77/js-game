@@ -32,7 +32,6 @@ ball.style.borderRadius = "25px";
 ball.style.top = "70%";
 ball.style.left = "50%";
 
-
 // Ball Placement/Appearance
 ball.style.display="none";
 
@@ -52,6 +51,9 @@ paddle.style.left = "50%";
 // Append Paddle
 container.appendChild(paddle);
 
+
+
+
 // Keyboard Events (Arrow Key Left is 37, Arrow Key Right is 39) 
 document.addEventListener('keydown',function(e)
 {
@@ -68,11 +70,16 @@ document.addEventListener('keyup',function(e)   // When key is released, paddle 
     if(e.keyCode === 39)paddle.right=false;      
 })
 
-//Variable for the player
+
+
+
+// Variable for the player
 
 const player = {
   gameover : true
 };
+
+
 
 // Click to 'Start Game' Event
 gameover.addEventListener('click', startGame);
@@ -94,7 +101,7 @@ function startGame()
     }
 }
 
-  //Function setup bricks
+  // Function setup bricks
   function setupBricks(num){
     let row = {                     //determine starting position
       x: ((conDim.width % 100)/2),
@@ -113,11 +120,10 @@ function startGame()
 
 
 
-
-  //Function to update score and lives
+  // Function to Update Score and Lives
   function scoreUpdater(){
     document.querySelector('.score').textContent = player.score;
-    document.querySelector('.lives').textContent = player.lives; //update players lives
+    document.querySelector('.lives').textContent = player.lives; // Update players lives
   }
 
 
@@ -133,13 +139,18 @@ function update ()                             // Function to continously move t
     if(paddle.right){
       pCurrent +=5;  //adding 5
     }
-    paddle.style.left = pCurrent + 'px'; //Updating left paddle position
+    paddle.style.left = pCurrent + 'px'; // Updating left paddle position
   
     window.requestAnimationFrame(update);
 }
+
+
+
  
 // "Request Animation Frame" is a method that tells the browser that you wish to perform an animation
 // and requests that the browser call a specific function to update the animation
+
+
  
 var start = null
 
@@ -157,6 +168,3 @@ function step(timestamp) {
 }
 
 window.requestAnimationFrame(step);
-
-
-

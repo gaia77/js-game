@@ -103,7 +103,7 @@ function startGame()
 
   // Function setup bricks
   function setupBricks(num){
-    let row = {                     //determine starting position
+    let row = {                     // Determine starting position
       x: ((conDim.width % 100)/2),
       y: 50
     }

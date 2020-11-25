@@ -30,7 +30,7 @@ body {
 
 }
 
-.score, .lives{
+.game-status-container, .score, .lives{
     font-size: 1.5em ;
     color: white;
     padding-left: 50px;

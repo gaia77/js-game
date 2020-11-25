@@ -18,6 +18,11 @@ gameover.style.textTransform = "uppercase";
 gameover.style.fontFamily = "sans-serif"
 gameover.style.backgroundColor = "pink";
 gameover.style.width = "100%";
+
+// Click to 'Start Game' Event
+gameover.addEventListener('click', startGame);
+
+
 container.appendChild(gameover);
 
 // Creating the Ball Element
@@ -29,6 +34,10 @@ ball.style.width = "20px";
 ball.style.height = "20px";
 ball.style.backgroundColor = "white";
 ball.style.borderRadius = "25px";
+
+// If you want to add a png image to the ball
+// ball.style.backgroundImage = "url(ball.png)";
+// ball.style.backgroundSize= "20px 20px";
 ball.style.top = "70%";
 ball.style.left = "50%";
 
@@ -81,49 +90,72 @@ const player = {
 
 
 
-// Click to 'Start Game' Event
-gameover.addEventListener('click', startGame);
-
 
 
 // Functions
-function startGame()
-{
+function startGame(){
     if(player.gameover){
     player.gameover = false;
     gameover.style.display = "none"; //Hide start button
     player.score = 0; //set player score
-    player.lives = 5; //set players lives
+    player.lives = 3; //set players lives
     ball.style.display = "block";
+    player.ballDir = [5,5]; // ball direction set as an array
     setupBricks(30);   //set up bricks  
     scoreUpdater(); //update visible score 
-    //window.requestAnimationFrame(update);      // Animation to move paddle across the page
+    window.requestAnimationFrame(update);      // Animation to move paddle across the page
     }
 }
 
-  // Function setup bricks
+  // Function setup default bricks position
   function setupBricks(num){
     let row = {                     // Determine starting position
       x: ((conDim.width % 100)/2),
       y: 50
     }
-
-    for(let x=0;x<num;x++){
+    let skip = false; // Stop creating bricks when you run out of space
+    for(let x=0;x<num;x++){   // Create a for loop to know where to position bricks
       console.log(row);
       if(row.x>(conDim.width - 100)){
         row.y += 50;
+        if(row.y > (conDim.height /2)){
+          skip = true; //reduce the number of bricks being created
+        }
         row.x = ((conDim.width % 100)/2);
       }
-      row.x +=100;
+      row.count = x;
+      if(!skip){createBrick(row);}
+      row.x += 100;
     }
   }
 
+  // Function createBrick
+  
+  function createBrick(pos){
+    const div = document.createElement('div');
+    div.setAttribute('class','brick');
+    div.style.backgroundColor = rColor();
+    div.innerHTML = pos.count + 1 ;
+    div.style.left = pos.x + 'px';
+    div.style.top = pos.y + 'px';
+    container.appendChild(div);
+
+  }
+
+
+  //Function random brick color
+  function rColor(){
+    return '#' + Math.random().toString(16).substr(-6) 
+    // Create random  HEX color value 
+  }
 
 
   // Function to Update Score and Lives
   function scoreUpdater(){
-    document.querySelector('.score').textContent = player.score;
-    document.querySelector('.lives').textContent = player.lives; // Update players lives
+    document.querySelector('.score').innerHTML = player.score;
+    // Update players lives
+    //console.log(document.querySelector('.lives'));
+    document.querySelector('.lives').innerHTML = player.lives; 
   }
 
 
@@ -144,7 +176,21 @@ function update ()                             // Function to continously move t
     window.requestAnimationFrame(update);
 }
 
+// Function move ball
+ function moveBall(){
+   let posBall = {      //declare position ball
+      x:ball.offsetLeft, // horizontal position
+      y:ball.offsetTop  // vertical position
+    }
 
+    
+
+    posBall.y += player.ballDir[1]; //speed ball will be moving 
+    posBall.x += player.ballDir[0];
+    
+    ball.style.top = posBall.y + 'px';
+    ball.style.left = posBall.x + 'px';
+  } 
 
  
 // "Request Animation Frame" is a method that tells the browser that you wish to perform an animation
@@ -152,11 +198,13 @@ function update ()                             // Function to continously move t
 
 
  
-var start = null
+/*var start = null
 
 function step(timestamp) {
   if (!start) start = timestamp;
     var progress = timestamp - start;
+    container.style.transform = 'translateX(' + Math.min(progress/ 
+      10, 200) + 'px)';
 
     // `Math.min()` is used to make sure that the element stops at exactly 200px.
     //element.style.transform = 'translateX(' + Math.min(progress/10,200) + 'px)';
@@ -167,4 +215,4 @@ function step(timestamp) {
   }
 }
 
-window.requestAnimationFrame(step);
+window.requestAnimationFrame(step); */

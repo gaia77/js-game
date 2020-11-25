@@ -41,7 +41,7 @@ ball.style.borderRadius = "25px";
 // If you want to add a png image to the ball
 // ball.style.backgroundImage = "url(ball.png)";
 // ball.style.backgroundSize= "20px 20px";
-ball.style.top = "70%";
+ball.style.top = "40%";
 ball.style.left = "50%";
 
 // Ball Placement/Appearance
@@ -58,7 +58,7 @@ paddle.style.height = "20px";
 paddle.style.width = "150px";
 paddle.style.borderRadius = "25px";
 paddle.style.bottom = "30px";
-paddle.style.left = "50%";
+paddle.style.left = "45%";
 
 // Append Paddle
 container.appendChild(paddle);

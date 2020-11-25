@@ -181,9 +181,9 @@ function update(){                             // Function to continously move t
       x:ball.offsetLeft, // horizontal position
       y:ball.offsetTop  // vertical position
     }
-
+  // Checking container dimensions
     if(posBall.y >(conDim.height -20) || posBall.y <0){
-      player.ballDir[1]*= -1;
+      player.ballDir[1]*= -1; //Reverse ball position
   } 
 
   if(posBall.x >(conDim.width -20) || posBall.x <0){

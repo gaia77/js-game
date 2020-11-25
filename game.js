@@ -64,16 +64,16 @@ container.appendChild(paddle);
 
 
 // Keyboard Events (Arrow Key Left is 37, Arrow Key Right is 39) 
-document.addEventListener('keydown',function(e)
-{
+document.addEventListener('keydown',function(e){
+
     console.log(e.keyCode);
     if(e.keyCode === 37)paddle.left=true;       // If keycode is 37, set paddle value left to be true
     if(e.keyCode === 39)paddle.right=true;      // If keycode is 39, set paddle value right to be true
 })
 
 
-document.addEventListener('keyup',function(e)   // When key is released, paddle will stop moving left or right
-{
+document.addEventListener('keyup',function(e){   // When key is released, paddle will stop moving left or right
+
     console.log(e.keyCode);
     if(e.keyCode === 37)paddle.left=false;       
     if(e.keyCode === 39)paddle.right=false;      
@@ -160,10 +160,9 @@ function startGame(){
 
 
 
-function update ()                             // Function to continously move the paddle
-{
+function update(){                             // Function to continously move the paddle{
     let pCurrent = paddle.offsetLeft;
-    console.log(pCurrent);
+    moveBall();
     if(paddle.left){ 
       pCurrent -=5;  //subtracting 5 off
     }
@@ -183,7 +182,13 @@ function update ()                             // Function to continously move t
       y:ball.offsetTop  // vertical position
     }
 
-    
+    if(posBall.y >(conDim.height -20) || posBall.y <0){
+      player.ballDir[1]*= -1;
+  } 
+
+  if(posBall.x >(conDim.width -20) || posBall.x <0){
+    player.ballDir[0]*= -1;
+  } 
 
     posBall.y += player.ballDir[1]; //speed ball will be moving 
     posBall.x += player.ballDir[0];

@@ -8,7 +8,7 @@ let conDim = container.getBoundingClientRect();
 const gameover = document.createElement('div');
 
 // Game Styling Elements
-gameover.textContent = "Start Game"; 
+gameover.innerHTML = "Start Game"; 
 gameover.style.position = "absolute"; 
 gameover.style.color = "white";
 gameover.style.lineHeight = "300px";
@@ -17,7 +17,10 @@ gameover.style.fontSize = "3em";
 gameover.style.textTransform = "uppercase";
 gameover.style.fontFamily = "sans-serif"
 gameover.style.backgroundColor = "pink";
+gameover.style.paddingTop= "10%";
+gameover.style.paddingBottom= "10%"
 gameover.style.width = "100%";
+gameover.style.height = "80%";
 
 // Click to 'Start Game' Event
 gameover.addEventListener('click', startGame);
@@ -100,11 +103,11 @@ function startGame(){
     player.score = 0; //set player score
     player.lives = 3; //set players lives
     ball.style.display = "block";
-    player.ballDir = [5,5]; // ball direction set as an array
+    player.ballDir = [4,4]; // ball direction set as an array
     setupBricks(30);   //set up bricks  
     scoreUpdater(); //update visible score 
-    window.requestAnimationFrame(update);      // Animation to move paddle across the page
-    }
+    window.requestAnimationFrame(update);
+    }      // Animation to move paddle across the page
 }
 
   // Function setup default bricks position
@@ -162,11 +165,7 @@ function startGame(){
 
 function update(){                             // Function to continously move the paddle{
     let pCurrent = paddle.offsetLeft;
-<<<<<<< HEAD
-    moveBall()
-=======
     moveBall();
->>>>>>> cb375c6d71ed8179110d960690936c2bcf140bb2
     if(paddle.left){ 
       pCurrent -=5;  //subtracting 5 off
     }

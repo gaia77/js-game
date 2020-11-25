@@ -12,13 +12,13 @@ body {
 }
 
 .container{
-    height: 400px;
+    height: 600px;
     width: 80%;
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
     border: 1px solid black;
-    margin-top: 20px;
+    margin-top: 80px;
     position: relative;
     background-color: rgb(185, 255, 255);
 
@@ -30,11 +30,13 @@ body {
 
 }
 
-.game-status-container, .score, .lives{
+.game-status-container{
     font-size: 1.5em ;
     color: white;
-    padding-left: 50px;
     padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10%;
+    background-color: rgb(143, 0, 95);
 }
 
 .brick{

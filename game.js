@@ -185,11 +185,11 @@ function update(){                             // Function to continously move t
       y:ball.offsetTop  // vertical position
     }
 
-    if(posBall.y >(conDim.height -20) || posBall.y <0){
+    if(posBall.y >(conDim.height -30) || posBall.y <0){
       player.ballDir[1]*= -1;
   } 
 
-  if(posBall.x >(conDim.width -20) || posBall.x <0){
+  if(posBall.x >(conDim.width -30) || posBall.x <0){
     player.ballDir[0]*= -1;
   } 
 

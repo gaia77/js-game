@@ -25,7 +25,7 @@ body {
 }
 
 .wrapper {
-    min-height: 60vw;
+    min-height: 68vw;
     background-image: url('/images/brick.jpg');
     background-attachment: fixed;
     background-position: center;
@@ -39,7 +39,7 @@ body {
     padding-top: 10px;
     padding-bottom: 20px;
     padding-left: 2%;
-    display:flex;
+    display::block;
     margin-right: 30px;
     padding-top: 40px;
 }

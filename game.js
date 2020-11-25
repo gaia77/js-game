@@ -115,10 +115,10 @@ function startGame(){
     }
     let skip = false; // Stop creating bricks when you run out of space
     for(let x=0;x<num;x++){   // Create a for loop to know where to position bricks
-      console.log(row);
+      // console.log(row);
       if(row.x>(conDim.width - 100)){
         row.y += 50;
-        if(row.y > (conDim.height /2)){
+        if(row.y > (conDim.height/2)){
           skip = true; //reduce the number of bricks being created
         }
         row.x = ((conDim.width % 100)/2);
@@ -145,7 +145,7 @@ function startGame(){
 
   //Function random brick color
   function rColor(){
-    return '#' + Math.random().toString(16).substr(-6) 
+    return '#' + Math.random().toString(16).substr(-6);
     // Create random  HEX color value 
   }
 
@@ -163,7 +163,7 @@ function startGame(){
 function update ()                             // Function to continously move the paddle
 {
     let pCurrent = paddle.offsetLeft;
-    console.log(pCurrent);
+    moveBall()
     if(paddle.left){ 
       pCurrent -=5;  //subtracting 5 off
     }

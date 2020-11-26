@@ -15,7 +15,8 @@ const gameover = document.createElement('div');
 gameover.innerHTML = "Start Game"; 
 gameover.style.position = "absolute"; 
 gameover.style.color = "white";
-gameover.style.lineHeight = "300px";
+gameover.style.lineHeight = "60px";
+gameover.style.height="250px";
 gameover.style.textAlign = "center";
 gameover.style.fontSize = "2em";
 gameover.style.textTransform = "uppercase";
@@ -100,15 +101,17 @@ const player = {
 
 function startGame(){
   if(player.gameover){
-  player.gameover = false;
-  gameover.style.display = "none"; // Hide start button
-  player.score = 0; // Set player score
-  player.lives = 3; // Set players lives
-  ball.style.display = "block";
-  player.ballDir = [4,4]; // Ball direction set as an array
-  setupBricks(30);   // Set up bricks  
-  scoreUpdater(); // Update visible score 
-  window.requestAnimationFrame(update); // Animation to move paddle across the page
+    player.gameover = false;
+    gameover.style.display = "none"; // Hide start button
+    player.score = 0; // Set player score
+    player.lives = 1; // Set players lives
+    ball.style.display = "block";
+    ball.style.left= paddle.offsetLeft + 50 + "px";
+    ball.style.top= paddle.offsetTop - 30 + "px";
+    player.ballDir = [2,-5]; // Ball direction set as an array
+    setupBricks(30);   // Set up bricks  
+    scoreUpdater(); // Update visible score 
+    window.requestAnimationFrame(update); // Animation to move paddle across the page
   }      
 }
 
@@ -148,7 +151,7 @@ function createBrick(pos){
 }
 
 // Collision - Checking to see if bottom of paddle is less than the top of the ball
-// Also hecking to see if the bottom position of ball is larger than the top position of the paddle
+// Also checking to see if the bottom position of ball is larger than the top position of the paddle
 
 function isCollide(a,b) {
   let aRect = a.getBoundingClientRect();
@@ -158,7 +161,7 @@ function isCollide(a,b) {
 }
 
 
-// Function Rndom Brick Color
+// Function Random Brick Color
 
 function rColor() {
   return '#' + Math.random().toString(16).substr(-6);   // Create random  HEX color value 
@@ -176,22 +179,54 @@ function scoreUpdater(){
 }
 
 
+// Function to continously move the paddle
+function update(){
+  if(!player.gameover){                             
+    let pCurrent = paddle.offsetLeft;
+    moveBall();
+    if(paddle.left){ 
+      pCurrent -=5;  //subtracting 5 off
+    }
 
-function update(){                             // Function to continously move the paddle{
-  let pCurrent = paddle.offsetLeft;
-  moveBall();
-  if(paddle.left){ 
-    pCurrent -=5;  //subtracting 5 off
+    if(paddle.right){
+      pCurrent +=5;  //adding 5
+    }
+    
+    paddle.style.left = pCurrent + 'px'; // Updating left paddle position
+
+    window.requestAnimationFrame(update);
   }
-
-  if(paddle.right){
-    pCurrent +=5;  //adding 5
-  }
-  
-  paddle.style.left = pCurrent + 'px'; // Updating left paddle position
-
-  window.requestAnimationFrame(update);
 }
+
+//Function fallOff will be detracting player lives
+
+  function fallOff(){
+    player.lives--;
+      if(player.lives<0){
+        endGame();
+        player.lives = 0;
+    }
+    scoreUpdater();
+    stopper();
+  }
+// Function endGame
+// Hide the ball , hide the bricks... clear up the board
+  function endGame(){
+    gameover.style.display="block";
+    gameover.innerHTML = "Game Over<br>Your score "+player.score;
+    player.gameover = true;
+    ball.style.display = "none";
+    let tempBricks = document.querySelectorAll('.brick');
+    for(let tBrick of tempBricks){
+      tBrick.parentNode.removeChild(tBrick);
+    }
+  }
+
+  // Function to stop the ball on top of the paddle
+
+  function stopper(){
+
+  }
 
 // Function move ball
  function moveBall(){
@@ -201,9 +236,12 @@ function update(){                             // Function to continously move t
     }
   // Checking container dimensions
     if(posBall.y >(conDim.height -20) || posBall.y <0){
-      player.ballDir[1]*= -1; //Reverse ball position
-  } 
-
+      if(posBall.y > (conDim.height -20)){
+        fallOff();
+      }else{
+        player.ballDir[1]*= -1; //Reverse ball position
+      } 
+  }
   if(posBall.x >(conDim.width -30) || posBall.x <0){
     player.ballDir[0]*= -1;
   } 
@@ -230,7 +268,7 @@ function update(){                             // Function to continously move t
   
   ball.style.top = posBall.y + 'px';
   ball.style.left = posBall.x + 'px';
-} 
+  } 
 
 // "Request Animation Frame" is a method that tells the browser that you wish to perform an animation
 // and requests that the browser call a specific function to update the animation

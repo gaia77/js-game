@@ -15,7 +15,7 @@ const gameover = document.createElement('div');
 gameover.innerHTML = "Start Game"; 
 gameover.style.position = "absolute"; 
 gameover.style.color = "white";
-gameover.style.lineHeight = "60px";
+gameover.style.lineHeight = "275px";
 gameover.style.height="250px";
 gameover.style.textAlign = "center";
 gameover.style.fontSize = "2em";
@@ -69,7 +69,7 @@ paddle.style.height = "20px";
 paddle.style.width = "150px";
 paddle.style.borderRadius = "25px";
 paddle.style.bottom = "30px";
-paddle.style.left = "45%";
+paddle.style.left = "43%";
 
 // Append Paddle
 
@@ -82,6 +82,8 @@ document.addEventListener('keydown',function(e){
   console.log(e.keyCode);
   if(e.keyCode === 37)paddle.left=true;       // If keycode is 37, set paddle value left to be true
   if(e.keyCode === 39)paddle.right=true;      // If keycode is 39, set paddle value right to be true
+  if (e.keyCode === 38 && !player.inPlay)     // Give ability to launch the ball whenever they choose to
+  player.inPlay = true; 
 })
 
 document.addEventListener('keyup',function(e){   // When key is released, paddle will stop moving left or right
@@ -104,14 +106,16 @@ function startGame(){
     player.gameover = false;
     gameover.style.display = "none"; // Hide start button
     player.score = 0; // Set player score
-    player.lives = 1; // Set players lives
+    player.lives = 3; // Set players lives
+    player.inPlay = false;
     ball.style.display = "block";
-    ball.style.left= paddle.offsetLeft + 50 + "px";
-    ball.style.top= paddle.offsetTop - 30 + "px";
+    ball.style.left = paddle.offsetLeft + 50 + "px";
+    ball.style.top = paddle.offsetTop - 30 + "px";
     player.ballDir = [2,-5]; // Ball direction set as an array
-    setupBricks(30);   // Set up bricks  
+    player.num = 30;
+    setupBricks(player.num);   // Set up bricks  
     scoreUpdater(); // Update visible score 
-    window.requestAnimationFrame(update); // Animation to move paddle across the page
+    player.ani = requestAnimationFrame(update); // Animation to move paddle across the page
   }      
 }
 
@@ -165,7 +169,6 @@ function isCollide(a,b) {
 
 function rColor() {
   return '#' + Math.random().toString(16).substr(-6);   // Create random  HEX color value 
-
 }
 
 
@@ -180,25 +183,36 @@ function scoreUpdater(){
 
 
 // Function to continously move the paddle
+
 function update(){
   if(!player.gameover){                             
     let pCurrent = paddle.offsetLeft;
-    moveBall();
-    if(paddle.left){ 
+    
+    if(paddle.left && pCurrent > 0){ 
       pCurrent -=5;  //subtracting 5 off
     }
 
-    if(paddle.right){
+    if(paddle.right && (pCurrent < (conDim.width - paddle.offsetWidth))){
       pCurrent +=5;  //adding 5
     }
     
     paddle.style.left = pCurrent + 'px'; // Updating left paddle position
 
-    window.requestAnimationFrame(update);
+    if(!player.inPlay){
+      waitingOnPaddle()
+    }else{
+      moveBall();
+    }
+    player.ani = window.requestAnimationFrame(update);
   }
 }
 
-//Function fallOff will be detracting player lives
+function waitingOnPaddle(){
+  ball.style.top = (paddle.offsetTop - 22)+'px';
+  ball.style.left = (paddle.offsetLeft) + 65 + 'px';
+}
+
+// Function fallOff will be detracting player lives
 
   function fallOff(){
     player.lives--;
@@ -209,8 +223,10 @@ function update(){
     scoreUpdater();
     stopper();
   }
+
 // Function endGame
 // Hide the ball , hide the bricks... clear up the board
+
   function endGame(){
     gameover.style.display="block";
     gameover.innerHTML = "Game Over<br>Your score "+player.score;
@@ -225,16 +241,22 @@ function update(){
   // Function to stop the ball on top of the paddle
 
   function stopper(){
-
+    player.inPlay = false;
+    player.ballDir[0,-5];
+    waitingOnPaddle();
+    window.cancelAnimationFrame(player.ani);
   }
 
 // Function move ball
+
  function moveBall(){
    let posBall = {      //declare position ball
       x:ball.offsetLeft, // horizontal position
       y:ball.offsetTop  // vertical position
     }
+
   // Checking container dimensions
+
     if(posBall.y >(conDim.height -20) || posBall.y <0){
       if(posBall.y > (conDim.height -20)){
         fallOff();
@@ -254,6 +276,10 @@ function update(){
   };
 
   let bricks = document.querySelectorAll('.brick');
+  if(bricks.length == 0){
+    stopper();
+    setupBricks(player.num);
+  }
   for(let tBrick of bricks){
     if(isCollide(tBrick,ball)){
       player.ballDir[1]*=-1;

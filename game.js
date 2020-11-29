@@ -69,7 +69,7 @@ paddle.style.height = "20px";
 paddle.style.width = "150px";
 paddle.style.borderRadius = "25px";
 paddle.style.bottom = "30px";
-paddle.style.left = "43%";
+paddle.style.left = "40%";
 
 // Append Paddle
 
@@ -109,11 +109,11 @@ function startGame(){
     player.lives = 3; // Set players lives
     player.inPlay = false;
     ball.style.display = "block";
-    ball.style.left = paddle.offsetLeft + 50 + "px";
+    ball.style.left = paddle.offsetLeft + 50 + "px"; //Ball default position 
     ball.style.top = paddle.offsetTop - 30 + "px";
     player.ballDir = [2,-5]; // Ball direction set as an array
     player.num = 30;
-    setupBricks(player.num);   // Set up bricks  
+    setupBricks(player.num);   // Set bricks dynamically   
     scoreUpdater(); // Update visible score 
     player.ani = requestAnimationFrame(update); // Animation to move paddle across the page
   }      
@@ -188,11 +188,11 @@ function update(){
   if(!player.gameover){                             
     let pCurrent = paddle.offsetLeft;
     
-    if(paddle.left && pCurrent > 0){ 
+    if(paddle.left && pCurrent > 0){ //Paddle won't move off the left end side
       pCurrent -=5;  //subtracting 5 off
     }
 
-    if(paddle.right && (pCurrent < (conDim.width - paddle.offsetWidth))){
+    if(paddle.right && (pCurrent < (conDim.width - paddle.offsetWidth))){ //Paddle won't go pass the edges on right side
       pCurrent +=5;  //adding 5
     }
     
@@ -203,12 +203,12 @@ function update(){
     }else{
       moveBall();
     }
-    player.ani = window.requestAnimationFrame(update);
+    player.ani = window.requestAnimationFrame(update); //Relaunch animation
   }
 }
 
 function waitingOnPaddle(){
-  ball.style.top = (paddle.offsetTop - 22)+'px';
+  ball.style.top = (paddle.offsetTop - 22)+'px'; 
   ball.style.left = (paddle.offsetLeft) + 65 + 'px';
 }
 
@@ -259,16 +259,16 @@ function waitingOnPaddle(){
 
     if(posBall.y >(conDim.height -20) || posBall.y <0){
       if(posBall.y > (conDim.height -20)){
-        fallOff();
+        fallOff(); 
       }else{
-        player.ballDir[1]*= -1; //Reverse ball position
+        player.ballDir[1]*= -1; //Reverse ball position/direction
       } 
   }
   if(posBall.x >(conDim.width -30) || posBall.x <0){
     player.ballDir[0]*= -1;
   } 
 
-  if(isCollide(paddle,ball)){
+  if(isCollide(paddle,ball)){ //check collision with the paddle
     let temp = ((posBall.x - paddle.offsetLeft) - (paddle.offsetWidth/2))/10;
     console.log('hit');
     player.ballDir[0] = temp;
@@ -277,10 +277,10 @@ function waitingOnPaddle(){
 
   let bricks = document.querySelectorAll('.brick');
   if(bricks.length == 0){
-    stopper();
-    setupBricks(player.num);
+    stopper(); //stop ball from moving
+    setupBricks(player.num); //set up value bricks generated
   }
-  for(let tBrick of bricks){
+  for(let tBrick of bricks){ //loop through all the bricks
     if(isCollide(tBrick,ball)){
       player.ballDir[1]*=-1;
       tBrick.parentNode.removeChild(tBrick);  // Remove brick
@@ -291,7 +291,6 @@ function waitingOnPaddle(){
   
   posBall.y += player.ballDir[1]; //speed ball will be moving 
   posBall.x += player.ballDir[0];
-  
   ball.style.top = posBall.y + 'px';
   ball.style.left = posBall.x + 'px';
   } 

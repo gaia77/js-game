@@ -1,17 +1,13 @@
 // Grab HTML Element Selectors
-
 const container = document.querySelector('.container');
 
 // Returns the size of an element and its position relative to the viewport
-
 let conDim = container.getBoundingClientRect();
 
 // Created an empty div and add game styling content to it
-
 const gameover = document.createElement('div');
 
 // Game Styling Elements
-
 gameover.innerHTML = "Start Game"; 
 gameover.style.position = "absolute"; 
 gameover.style.color = "white";
@@ -28,40 +24,32 @@ gameover.style.width = "100%";
 gameover.style.height = "80%";
 
 // Click to 'Start Game' Event
-
 gameover.addEventListener('click', startGame);
 
+// Append Game Over
 container.appendChild(gameover);
 
 // Creating the Ball Element
-
 const ball = document.createElement('div');
 
 // Ball Styling
-
 ball.style.position = "absolute";
 ball.style.width = "20px";
 ball.style.height = "20px";
 ball.style.backgroundColor = "white";
 ball.style.borderRadius = "25px";
 
-// If you want to add a png image to the ball
-// ball.style.backgroundImage = "url(ball.png)";
-// ball.style.backgroundSize= "20px 20px";
-
+// Ball Position
 ball.style.top = "40%";
 ball.style.left = "50%";
 
 // Ball Placement/Appearance
-
 ball.style.display="none";
 
 // Append Ball 
-
 container.appendChild(ball);
 
 // Paddle Styling
-
 const paddle = document.createElement('div');
 paddle.style.position = "absolute";
 paddle.style.backgroundColor = "white";
@@ -69,14 +57,12 @@ paddle.style.height = "20px";
 paddle.style.width = "150px";
 paddle.style.borderRadius = "25px";
 paddle.style.bottom = "30px";
-paddle.style.left = "40%";
+paddle.style.left = "45%";
 
 // Append Paddle
-
 container.appendChild(paddle);
 
 // Keyboard Events (Arrow Key Left is 37, Arrow Key Right is 39) 
-
 document.addEventListener('keydown',function(e){
 
   console.log(e.keyCode);
@@ -94,13 +80,11 @@ document.addEventListener('keyup',function(e){   // When key is released, paddle
 })
 
 // Variable for the Player
-
 const player = {
   gameover : true
 };
 
 // Functions
-
 function startGame(){
   if(player.gameover){
     player.gameover = false;
@@ -120,7 +104,6 @@ function startGame(){
 }
 
 // Function Setup Default Bricks Position
-
 function setupBricks(num){
   let row = { // Determine starting position
     x: ((conDim.width % 100)/2),
@@ -143,7 +126,6 @@ function setupBricks(num){
 }
 
 // Function Create Brick
-  
 function createBrick(pos){
   const div = document.createElement('div');
   div.setAttribute('class','brick');
@@ -156,7 +138,6 @@ function createBrick(pos){
 
 // Collision - Checking to see if bottom of paddle is less than the top of the ball
 // Also checking to see if the bottom position of ball is larger than the top position of the paddle
-
 function isCollide(a,b) {
   let aRect = a.getBoundingClientRect();
   let bRect = b.getBoundingClientRect();
@@ -164,13 +145,10 @@ function isCollide(a,b) {
   (aRect.bottom<bRect.top) || (aRect.top>bRect.bottom));
 }
 
-
 // Function Random Brick Color
-
 function rColor() {
   return '#' + Math.random().toString(16).substr(-6);   // Create random  HEX color value 
 }
-
 
 // Function to Update Score and Lives
 
@@ -181,20 +159,18 @@ function scoreUpdater(){
   document.querySelector('.lives').innerHTML = player.lives; 
 }
 
-
 // Function to continously move the paddle
-
 function update(){
-  if(!player.gameover){                             
-    let pCurrent = paddle.offsetLeft;
-    
-    if(paddle.left && pCurrent > 0){ //Paddle won't move off the left end side
-      pCurrent -=5;  //subtracting 5 off
-    }
+if(!player.gameover){                             
+  let pCurrent = paddle.offsetLeft;
+  
+  if(paddle.left && pCurrent > 0){ //Paddle won't move off the left end side
+    pCurrent -=5;  //subtracting 5 off
+  }
 
-    if(paddle.right && (pCurrent < (conDim.width - paddle.offsetWidth))){ //Paddle won't go pass the edges on right side
-      pCurrent +=5;  //adding 5
-    }
+  if(paddle.right && (pCurrent < (conDim.width - paddle.offsetWidth))){ //Paddle won't go pass the edges on right side
+    pCurrent +=5;  //adding 5
+  }
     
     paddle.style.left = pCurrent + 'px'; // Updating left paddle position
 
@@ -213,20 +189,18 @@ function waitingOnPaddle(){
 }
 
 // Function fallOff will be detracting player lives
-
-  function fallOff(){
-    player.lives--;
-      if(player.lives<0){
-        endGame();
-        player.lives = 0;
-    }
-    scoreUpdater();
-    stopper();
+function fallOff(){
+  player.lives--;
+    if(player.lives<0){
+      endGame();
+      player.lives = 0;
   }
+  scoreUpdater();
+  stopper();
+}
 
 // Function endGame
 // Hide the ball , hide the bricks... clear up the board
-
   function endGame(){
     gameover.style.display="block";
     gameover.innerHTML = "Game Over<br>Your score "+player.score;
@@ -238,81 +212,57 @@ function waitingOnPaddle(){
     }
   }
 
-  // Function to stop the ball on top of the paddle
-
-  function stopper(){
-    player.inPlay = false;
-    player.ballDir[0,-5];
-    waitingOnPaddle();
-    window.cancelAnimationFrame(player.ani);
-  }
-
-// Function move ball
-
- function moveBall(){
-   let posBall = {      //declare position ball
-      x:ball.offsetLeft, // horizontal position
-      y:ball.offsetTop  // vertical position
-    }
-
-  // Checking container dimensions
-
-    if(posBall.y >(conDim.height -20) || posBall.y <0){
-      if(posBall.y > (conDim.height -20)){
-        fallOff(); 
-      }else{
-        player.ballDir[1]*= -1; //Reverse ball position/direction
-      } 
-  }
-  if(posBall.x >(conDim.width -30) || posBall.x <0){
-    player.ballDir[0]*= -1;
-  } 
-
-  if(isCollide(paddle,ball)){ //check collision with the paddle
-    let temp = ((posBall.x - paddle.offsetLeft) - (paddle.offsetWidth/2))/10;
-    console.log('hit');
-    player.ballDir[0] = temp;
-    player.ballDir[1]*=-1;
-  };
-
-  let bricks = document.querySelectorAll('.brick');
-  if(bricks.length == 0){
-    stopper(); //stop ball from moving
-    setupBricks(player.num); //set up value bricks generated
-  }
-  for(let tBrick of bricks){ //loop through all the bricks
-    if(isCollide(tBrick,ball)){
-      player.ballDir[1]*=-1;
-      tBrick.parentNode.removeChild(tBrick);  // Remove brick
-      player.score++;   // Update score
-      scoreUpdater();
-    }
-  }
-  
-  posBall.y += player.ballDir[1]; //speed ball will be moving 
-  posBall.x += player.ballDir[0];
-  ball.style.top = posBall.y + 'px';
-  ball.style.left = posBall.x + 'px';
-  } 
-
-// "Request Animation Frame" is a method that tells the browser that you wish to perform an animation
-// and requests that the browser call a specific function to update the animation
-
-/*var start = null
-
-function step(timestamp) {
-  if (!start) start = timestamp;
-    var progress = timestamp - start;
-    container.style.transform = 'translateX(' + Math.min(progress/ 
-      10, 200) + 'px)';
-
-    // `Math.min()` is used to make sure that the element stops at exactly 200px.
-    //element.style.transform = 'translateX(' + Math.min(progress/10,200) + 'px)';
-
-  if (progress < 2000)
-  { 
-    window.requestAnimationFrame(step);     // Stop the animation after 2 seconds
-  }
+// Function to stop the ball on top of the paddle
+function stopper(){
+  player.inPlay = false;
+  player.ballDir[0,-5];
+  waitingOnPaddle();
+  window.cancelAnimationFrame(player.ani);
 }
 
-window.requestAnimationFrame(step); */
+// Function move ball
+function moveBall(){
+  let posBall = {      //declare position ball
+    x:ball.offsetLeft, // horizontal position
+    y:ball.offsetTop  // vertical position
+  }
+
+// Checking container dimensions
+if(posBall.y >(conDim.height -20) || posBall.y <0){
+  if(posBall.y > (conDim.height -20)){
+    fallOff(); 
+  }else{
+    player.ballDir[1]*= -1; //Reverse ball position/direction
+  } 
+}
+
+if(posBall.x >(conDim.width -30) || posBall.x <0){
+player.ballDir[0]*= -1;
+} 
+
+if(isCollide(paddle,ball)){ //check collision with the paddle
+  let temp = ((posBall.x - paddle.offsetLeft) - (paddle.offsetWidth/2))/10;
+  console.log('hit');
+  player.ballDir[0] = temp;
+  player.ballDir[1]*=-1;
+};
+
+let bricks = document.querySelectorAll('.brick');
+if(bricks.length == 0){
+  stopper(); //stop ball from moving
+  setupBricks(player.num); //set up value bricks generated
+}
+for(let tBrick of bricks){ //loop through all the bricks
+  if(isCollide(tBrick,ball)){
+    player.ballDir[1]*=-1;
+    tBrick.parentNode.removeChild(tBrick);  // Remove brick
+    player.score++;   // Update score
+    scoreUpdater();
+  }
+}
+  
+posBall.y += player.ballDir[1]; //speed ball will be moving 
+posBall.x += player.ballDir[0];
+ball.style.top = posBall.y + 'px';
+ball.style.left = posBall.x + 'px';
+}

@@ -4,17 +4,27 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">    
             <title>JavaScript Game</title>
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">  
             <link rel="stylesheet" href="styles/styles.css" type="text/css">
-            </head>
-                <body>
-                    <div class="wrapper">
-                        <div class="game-status-container">
-                            <h1>Brick Breaker</h1>
-                            Score: <span class="score"></span>    <!--Track Score-->
-                            Lives: <span class="lives"></span>     <!--Decrease Lives-->
-                            
-                        <div class="container"></div>              <!--Game Container-->     
-                    </div>   
+        </head>
+            <body>
+                <div class="wrapper">
+                    <div class="game-status-container">
+                    <div class="text">
+                    <h1>Brick Breaker</h1>
+                    Score: <span class="score"></span>     <!--Track Score-->
+                    Lives: <span class="lives"></span>     <!--Decrease Lives-->
+                    <h4>How to Play:</h4>
+                    <ol>
+                        <li>Press Up-arrow key to release the ball</li>
+                        <li>Use arrow keys to move the paddle left <br > and right, keeping the ball in the air</li>
+                        <li>Break the bricks to build your score</li>
+                    </ol>
+                    </div>
+                    <div class="container"></div>          <!--Game Container-->     
+                </div>
+            </div>   
         </body>
     <script src="game.js"></script>  
 </html>

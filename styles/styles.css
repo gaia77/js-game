@@ -18,27 +18,40 @@ body {
     margin-right: auto;
     overflow: hidden;
     border: 10px solid rgb(255, 255, 255);
-    margin-top: 20px;
+    margin-top: 5%;
     position: relative;
     background-color: rgb(71, 240, 231);
     filter: drop-shadow(0px 50px 40px #292929);
 }
 
 .wrapper {
-    min-height: 60vw;
+    min-height: 100vh;
     background-image: url('/images/brick.jpg');
     background-attachment: fixed;
     background-position: center;
     background-size: cover;
 }
 
+h1 {
+    font-family: 'Alfa Slab One', cursive;
+    font-size: 2.6em;
+}
+
+ol {
+    padding-left: 15px;
+}
+
+.score, .lives {
+    font-size: 1.5em;
+    color: rgb(167, 44, 167);
+}
+
 .game-status-container{
     font-size: 1.2em ;
     color: white;
-    padding-top: 10px;
     padding-bottom: 20px;
     padding-left: 2%;
-    display:block;
+    display: flex;
     margin-right: 30px;
     padding-top: 10px;
 }

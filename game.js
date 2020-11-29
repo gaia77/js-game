@@ -65,18 +65,27 @@ container.appendChild(paddle);
 // Keyboard Events (Arrow Key Left is 37, Arrow Key Right is 39) 
 document.addEventListener('keydown',function(e){
 
-  console.log(e.keyCode);
-  if(e.keyCode === 37)paddle.left=true;       // If keycode is 37, set paddle value left to be true
-  if(e.keyCode === 39)paddle.right=true;      // If keycode is 39, set paddle value right to be true
-  if (e.keyCode === 38 && !player.inPlay)     // Give ability to launch the ball whenever they choose to
-  player.inPlay = true; 
+   
+  if(e.keyCode === 37) {          // If keycode is 37, set paddle value left to be true
+      paddle.left=true;
+  }                          
+  if(e.keyCode === 39){           // If keycode is 39, set paddle value right to be true
+    paddle.right=true
+  };                          
+  if (e.keyCode === 38 && !player.inPlay){        // Give ability to launch the ball whenever they choose to
+    player.inPlay = true; 
+  }    
+  
 })
 
 document.addEventListener('keyup',function(e){   // When key is released, paddle will stop moving left or right
 
-    console.log(e.keyCode);
-    if(e.keyCode === 37)paddle.left=false;       
-    if(e.keyCode === 39)paddle.right=false;      
+  if(e.keyCode === 37){
+    paddle.left=false
+  };  
+  if(e.keyCode === 39){
+    paddle.right=false; 
+  };     
 })
 
 // Variable for the Player

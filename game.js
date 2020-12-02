@@ -216,9 +216,7 @@ function fallOff(){
     player.gameover = true;
     ball.style.display = "none";
     let tempBricks = document.querySelectorAll('.brick');
-    for(let tBrick of tempBricks){
-      tBrick.parentNode.removeChild(tBrick);
-    }
+    tempBricks.forEach((tBrick, i) => { tBrick.style.display = 'none'; });
   }
 
 // Function to stop the ball on top of the paddle

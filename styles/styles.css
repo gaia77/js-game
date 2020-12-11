@@ -26,7 +26,7 @@ body {
 
 .wrapper {
     min-height: 100vh;
-    background-image: url('/images/brick.jpg');
+    background-image: url('../images/brick.jpg');
     background-attachment: fixed;
     background-position: center;
     background-size: cover;
